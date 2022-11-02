@@ -7,6 +7,7 @@ import ColorPicker from './ColorPiker';
 
 import TodoList from './TodoList/TodoList';
 import initialTodos from '../todolist.json'
+import Modal from './Modal/Modal';
 
 const colorPickerOptions = [
   { label: 'red', color: '#F44336' },
@@ -20,15 +21,22 @@ const colorPickerOptions = [
 class App extends Component{
   state = {
     todos: initialTodos,
+    showModal: false,
 
   };
+  toggleModal = ()=>{
+    this.setState(({showModal}) => ({
+    showModal: !showModal,
+  }))
+}
+
   deleteTodo = (todoId) => {
     this.setState(prevState => ({
       todos: prevState.todos.filter(todo =>todo.id !== todoId),
     }))
   };
   render() {
-    const { todos } = this.state;
+    const { todos, showModal } = this.state;
 
     const totalTodoCount = todos.length;
 
@@ -39,6 +47,13 @@ class App extends Component{
     
     return (
       <>
+        <button type='button' onClick={this.toggleModal}>open</button>
+        {showModal && <Modal onClose={this.toggleModal}>
+          <h1>Modal</h1>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur nihil eos at ratione beatae. Natus ullam temporibus aspernatur sint, adipisci fugiat? Temporibus quasi harum possimus, sed qui vero magnam natus.</p>
+        <button type='button' onClick={this.toggleModal}>close</button>
+        </Modal>}
+     
         <Counter />
       <Dropdown />
         <ColorPicker options={colorPickerOptions} />
